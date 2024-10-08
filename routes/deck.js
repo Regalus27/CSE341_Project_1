@@ -37,6 +37,13 @@ router.put('/:deckId/:cardId', deckController.modifyCard);
  * DELETE
  * Delete card from deck
  */
+router.delete('/:deckId/:cardId', deckController.removeCard);
+
+/**
+ * DELETE
+ * Delete deck
+ * Cutting to save time, because I would need to also delete all cards with the same id
+ */
 
 
 module.exports = router;
