@@ -1,8 +1,13 @@
 const express = require('express');
+const mongodb = require('./data/database.js');
+const bodyParser = require('body-parser');
 
 const app = express();
 
 const port = process.env.PORT || 5959;
+
+// Read JSON
+app.use(bodyParser.json());
 
 // Compatability
 app.use((req, res, next) => {
@@ -17,6 +22,18 @@ app.use((req, res, next) => {
 
 app.use('/', require('./routes/index.js'));
 
-app.listen(port, () => {
-    console.log(`Listening on port ${port}`);
+// Error Handling (catch all)
+process.on('uncaughtException', (err, origin) => {
+    console.log(process.stderr.fd, `Caught exception: ${err}\n` + `Exception origin: ${origin}`);
+});
+
+mongodb.initDb((e) => {
+    if (e) {
+      // error logging
+      console.log(e);
+    } else {
+      app.listen(port, () => {
+        console.log(`Listening on port ${port}`);
+      });
+    }
 });
