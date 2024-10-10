@@ -1,5 +1,5 @@
 const router = require('express').Router();
-
+const validation = require('../middleware/validate.js');
 const deckController = require('../controllers/deck.js');
 
 // routes
@@ -19,7 +19,7 @@ router.get('/:id', deckController.getDecklist);
  * POST
  * Add card to target deck
  */
-router.post('/:id', deckController.addCard);
+router.post('/:id', validation.cardFormat, deckController.addCard);
 
 /**
  * POST 
@@ -31,7 +31,7 @@ router.post('/', deckController.addDeck);
  * PUT
  * Modify card in existing deck
  */
-router.put('/:deckId/:cardId', deckController.modifyCard);
+router.put('/:deckId/:cardId', validation.cardFormat, deckController.modifyCard);
 
 /**
  * DELETE

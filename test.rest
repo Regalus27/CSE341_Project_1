@@ -60,3 +60,74 @@ Content-Type: application/json
 
 ### DELETE card from deck
 DELETE http://localhost:5959/deck/67047d882803b937a72648d0/67058e0d2646e56aed2a180b HTTP/1.1
+
+# Production
+# Production
+# Production
+# Production
+# Production
+# Production
+# Production
+# Production
+### GET all deck ids
+GET https://cse341-project-1-p1v7.onrender.com/deck
+
+### GET Decklist (list of cards in deck with specific id)
+GET https://cse341-project-1-p1v7.onrender.com/deck/670592a8adf45cd53f814a02
+
+### POST Card (Add card to deck)
+POST https://cse341-project-1-p1v7.onrender.com/deck/670592a8adf45cd53f814a02 HTTP/1.1
+Content-Type: application/json
+
+{
+  "actions": [
+    {
+      "type": "Buff",
+      "value": 5
+    },
+    {
+      "type": "Block",
+      "value": 5
+    }
+  ],
+  "valueShop": 70,
+  "quantity": 2,
+  "cardType": "Attack",
+  "cost": 0,
+  "border": "green",
+  "deckId": "670592a8adf45cd53f814a02"
+}
+
+### POST add deck
+POST https://cse341-project-1-p1v7.onrender.com/deck HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "New Deck"
+}
+
+### PUT Modify Card
+PUT https://cse341-project-1-p1v7.onrender.com/deck/670592a8adf45cd53f814a02/67058e0d2646e56aed2a180b HTTP/1.1
+Content-Type: application/json
+
+{
+  "actions": [
+      {
+        "type": "Damage",
+        "value": 27
+      },
+      {
+        "type": "Block",
+        "value": 30
+      }
+    ],
+    "valueShop": 460,
+    "quantity": 3,
+    "cardType": "Attack",
+    "cost": 5,
+    "border": "violet",
+    "deckId": "670592a8adf45cd53f814a02"
+}
+
+### DELETE card from deck
+DELETE https://cse341-project-1-p1v7.onrender.com/deck/67047d882803b937a72648d0/67058e0d2646e56aed2a180b HTTP/1.1
