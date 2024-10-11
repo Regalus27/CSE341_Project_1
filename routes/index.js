@@ -7,7 +7,7 @@ router.use('/', require('./swagger.js'));
 router.get('/', (req, res) => {
     // If user isn't undefined, display that the user is Logged In
     // Else, display Logged Out
-    res.send(req.session.user !== undefined ? `Loggged in as ${req.session.user.displayName}`: 'Logged Out');
+    res.send(req.session.user !== undefined ? `Logged in as ${req.session.user.displayName}`: 'Logged Out');
 });
   
 // GitHub Login
