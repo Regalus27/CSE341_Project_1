@@ -11,19 +11,9 @@
     "https"
   ],
   "paths": {
-    "/": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/deck/": {
       "get": {
-        "description": "",
+        "description": "Returns a list of deckIds.",
         "produces": [
           "application/json"
         ],
@@ -34,7 +24,7 @@
         }
       },
       "post": {
-        "description": "",
+        "description": "Creates a new deck.",
         "parameters": [
           {
             "name": "body",
@@ -61,7 +51,7 @@
     },
     "/deck/{id}": {
       "get": {
-        "description": "",
+        "description": "Returns cards inside a deck",
         "produces": [
           "application/json"
         ],
@@ -86,7 +76,7 @@
         }
       },
       "post": {
-        "description": "",
+        "description": "Adds a card to deck.",
         "parameters": [
           {
             "name": "id",
@@ -143,7 +133,7 @@
     },
     "/deck/{deckId}/{cardId}": {
       "put": {
-        "description": "",
+        "description": "Updates a card within deck.",
         "parameters": [
           {
             "name": "deckId",
@@ -207,7 +197,7 @@
         }
       },
       "delete": {
-        "description": "",
+        "description": "Deletes a card from a deck.",
         "parameters": [
           {
             "name": "deckId",
