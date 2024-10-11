@@ -4,7 +4,7 @@ const express = require('express');
 const GitHubStrategy = require('passport-github2').Strategy;
 const mongodb = require('./data/database.js');
 const passport = require('passport');
-const session = require('express-session');
+const session = require('cookie-session');
 
 const app = express();
 
