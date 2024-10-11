@@ -26,14 +26,14 @@ router.use('/deck', require('./deck.js'));
 
 // GitHub Login + Logout Routes
 router.get('/login', passport.authenticate('github'), (req, res) => {});
-router.post('/logout', (req, res, next) => {
+router.get('/logout', (req, res, next) => {
+    req.session = null;
     req.logout((err) => {
         if (err) {
             return next(err);
         }
-        // If logout is successful, redirect to home page.
-        res.redirect('/');
-    })
+    });
+    res.redirect('/');
 });
 
 module.exports = router;
