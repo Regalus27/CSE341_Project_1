@@ -83,18 +83,18 @@ Content-Type: application/json
   "actions": [
     {
       "type": "Buff",
-      "value": 5
+      "value": 50
     },
     {
       "type": "Block",
-      "value": 5
+      "value": 50
     }
   ],
-  "valueShop": 70,
-  "quantity": 2,
-  "cardType": "Attack",
-  "cost": 0,
-  "border": "green",
+  "valueShop": 300,
+  "quantity": 1,
+  "cardType": "Skill",
+  "cost": 3,
+  "border": "gold",
   "deckId": "670592a8adf45cd53f814a02"
 }
 
