@@ -216,12 +216,12 @@ const removeCard = async(req, res) => {
     const response = await mongodb
         .getDatabase()
         .db(dbName)
-        .collection(deckCollectionName)
+        .collection(cardCollectionName)
         .deleteOne({ _id: new ObjectId(cardId) });
     if (response.deletedCount > 0) {
         res.status(204).send();
     }
-    res.status(500).json(response.error || 'Unexpected error occurrsed while removing the card.');
+    res.status(500).json(response.error || 'Unexpected error occurred while removing the card.');
 };
 
 module.exports = {

@@ -59,7 +59,7 @@ Content-Type: application/json
 }
 
 ### DELETE card from deck
-DELETE http://localhost:5959/deck/67047d882803b937a72648d0/67058e0d2646e56aed2a180b HTTP/1.1
+DELETE http://localhost:5959/deck/670436a50a8cb9ea3989b1ee/670435790a8cb9ea3989b1e0 HTTP/1.1
 
 # Production
 # Production
@@ -73,7 +73,7 @@ DELETE http://localhost:5959/deck/67047d882803b937a72648d0/67058e0d2646e56aed2a1
 GET https://cse341-project-1-p1v7.onrender.com/deck
 
 ### GET Decklist (list of cards in deck with specific id)
-GET https://cse341-project-1-p1v7.onrender.com/deck/670592a8adf45cd53f814a02
+GET https://cse341-project-1-p1v7.onrender.com/deck/670436a50a8cb9ea3989b1ee
 
 ### POST Card (Add card to deck)
 POST https://cse341-project-1-p1v7.onrender.com/deck/670592a8adf45cd53f814a02 HTTP/1.1
@@ -130,4 +130,4 @@ Content-Type: application/json
 }
 
 ### DELETE card from deck
-DELETE https://cse341-project-1-p1v7.onrender.com/deck/67047d882803b937a72648d0/67058e0d2646e56aed2a180b HTTP/1.1
+DELETE https://cse341-project-1-p1v7.onrender.com/deck/670436a50a8cb9ea3989b1ee/67047dad2803b937a72648d2 HTTP/1.1
