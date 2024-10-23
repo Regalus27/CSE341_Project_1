@@ -41,24 +41,30 @@ function validateCard(card) {
     }
 
     // Action Validation
-    // array of actionIds
-    //      check length of array, max length of 20 actions
-    //      check that ids are valid
-    //      check that actions exist
     if (card.actions.length > 20) {
         return false;
     }
 
-    card.actions.forEach((actionId) => {                // THIS SHOULD BE ACTION DON'T CHANGE IT
-        if (!isValidId(actionId)) {                     // THIS SHOULD BE ACTION DON'T CHANGE IT
-            return false;
+    var eval_result = true;
+    card.actions.forEach((action) => {                // THIS SHOULD BE ACTION DON'T CHANGE IT
+        if (!isValidId(action.actionId)) {                     // THIS SHOULD BE ACTION DON'T CHANGE IT
+            eval_result = false;
         }
 
-        if (!fooExists(actionId, actionCollection)) {   // THIS SHOULD BE ACTION DON'T CHANGE IT
-            return false;
+        console.log(action);
+        if (!Number.isInteger(action.quantity)) {
+            eval_result = false;
+        }
+        else {
+            // No zero or negative quantities
+            if (action.quantity <= 0) {
+                eval_result = false;
+            }
         }
     });
-
+    if (!eval_result) {
+        return false;
+    }
     return true;
 }
 
@@ -102,22 +108,29 @@ const getCard = async(req, res) => {
 }
 
 const createCard = async(req, res) => {
-    const card = {
+    const actions = [];
+    req.body.actions.forEach((action) => {
+        actions.push({
+            actionId: action.actionId,
+            quantity: action.quantity
+        });
+    });
+    const card = { // Figure out how to move this to a seperate thing that can be pulled in
         name: req.body.name,
         type: req.body.type,
         energyCost: req.body.energyCost,
         shopValue: req.body.shopValue,
         color: req.body.color,
-        actions: req.body.actions
+        actions: actions
     };
 
     // Validation (Should probably be elsewhere but too bad)
     if (!validateCard(card)) {
-        // Invalid action
+        // Invalid card
         res.status(400).json('Cannot create new Card: Invalid Object.');
     }
     else {
-        // Create Action
+        // Create card
         const response = await mongodb
             .getDatabase()
             .db(dbName)
@@ -144,17 +157,24 @@ const modifyCard = async(req, res) => {
     }
 
     // Validate Card
-    const card = {
+    const actions = [];
+    req.body.actions.forEach((action) => {
+        actions.push({
+            actionId: action.actionId,
+            quantity: action.quantity
+        });
+    });
+    const card = { // Figure out how to move this to a seperate thing that can be pulled in
         name: req.body.name,
         type: req.body.type,
         energyCost: req.body.energyCost,
         shopValue: req.body.shopValue,
         color: req.body.color,
-        actions: req.body.actions
+        actions: actions
     };
     if (!validateCard(card)) {
         // Invalid Card
-        res.status(400).json('Cannot create new Card: Invalid Object.');
+        res.status(400).json('Cannot update Card: Invalid Object.');
     }
     else {
         // Modify Card

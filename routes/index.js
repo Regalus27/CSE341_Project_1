@@ -36,7 +36,7 @@ router.get('/logout', (req, res, next) => {
 
 // Other Routes
 //router.use('/users', require('./users.js'));
-//router.use('/decks', require('./decks.js'));
+router.use('/decks', require('./decks.js'));
 router.use('/cards', require('./cards.js'));
 router.use('/actions', require('./actions.js'));
 
