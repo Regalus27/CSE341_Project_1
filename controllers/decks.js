@@ -1,16 +1,37 @@
 const mongodb = require('../data/database');
 const ObjectId = require('mongodb').ObjectId;
-const dbName = 'W03_DB';
-const cardCollectionName = 'CARDS';
-const deckCollectionName = 'DECKS';
+const dbName = process.env.DB_NAME;
+const cardCollectionName = process.env.COLLECTION_NAME_CARDS;
+const deckCollectionName = process.env.COLLECTION_NAME_DECKS;
 
-// If I end up rewriting this again, pull out the duplicate deck/card exist checks into a function
+async function deckExists(deckId) {
+    const deckCount = await mongodb
+        .getDatabase()
+        .db(dbName)
+        .collection(deckCollectionName)
+        .find({"_id": new ObjectId(deckId)})
+        .count();
+
+    if (deckCount == 0) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
+function isValidId(id) {
+    if (ObjectId.isValid(id)) {
+        return true;
+    }
+    return false;
+}
 
 /**
  * GET ALL
  * Returns ids of existing decks
  */
-const getAll = async(req, res) => {
+const getUserDecks = async(req, res) => {
     const result = mongodb
         .getDatabase()
         .db(dbName)
@@ -24,35 +45,31 @@ const getAll = async(req, res) => {
 
 /**
  * GET (ID)
- * Returns cards from target deck
+ * Returns cardIds from target deck
  */
 const getDecklist = async(req, res) => {
-    const deckId = req.params.id;
-    if (!ObjectId.isValid(deckId)){
-        res.status(400).json('Must use a valid deck id to find a decklist.');
+    const deckId = req.params.deckId;
+    if (!isValidId(deckId)) {
+        res.status(400).json('Invalid deckId');
     }
-    // Check if exists in deck database
-    const deckCount = mongodb
-        .getDatabase()
-        .db(dbName)
-        .collection(deckCollectionName)
-        .find({"_id": new ObjectId(deckId)})
-        .count();
-    if (deckCount == 0) {
-        // No decks found
+    
+    // If deck doesn't exist, throw error
+    if (!(await deckExists(deckId))) {
         res.status(404).json('No decks found with id: ' + deckId);
     }
-    // Deck exists, get card list
-    const result = mongodb
-        .getDatabase()
-        .db(dbName)
-        .collection(cardCollectionName)
-        .find({"deckId": deckId});
+    else {
+        // Deck exists, get card ids
+        const result = mongodb
+            .getDatabase()
+            .db(dbName)
+            .collection(deckCollectionName)
+            .find({'_id': new ObjectId(deckId)}); // TODO need to change w/ updated format
 
-    result.toArray().then((result) => {
-        res.setHeader('Content-Type', 'application/json');
-        res.status(200).json(result);
-    });
+        result.toArray().then((result) => {
+            res.setHeader('Content-Type', 'application/json');
+            res.status(200).json(result);
+        });
+    }
 };
 
 /**
@@ -64,20 +81,17 @@ const getDecklist = async(req, res) => {
 const addCard = async(req, res) => {
     // params: deck id
     const deckId = req.params.id;
-    // check deck exists
-    const deckCount = mongodb
-        .getDatabase()
-        .db(dbName)
-        .collection(deckCollectionName)
-        .find({"_id": new ObjectId(deckId)})
-        .count();
-    if (deckCount == 0) {
-        // No decks found
+    // id validation
+    if (!isValidId(deckId)) {
+        res.status(400).json('Invalid deckId.');
+    }
+    // If deck doesn't exist, throw error
+    if (!deckExists(deckId)) {
         res.status(404).json('No decks found with id: ' + deckId);
     }
     else {
         // card format
-        const card = {
+        const card = { //TODO update
             actions: req.body.actions,      // array of card effects
             valueShop: req.body.valueShop,  // value in shop
             quantity: req.body.quantity,    // # of cards in deck
@@ -102,9 +116,11 @@ const addCard = async(req, res) => {
  * POST
  * Add new deck
  */
-const addDeck = async(req, res) => {
+const newDeck = async(req, res) => {
     const deck = {
-        name: req.body.name
+        name: req.body.name,
+        cards: req.body.cards,
+        userId: req.body.userId
     };
     const response = await mongodb
         .getDatabase()
@@ -125,24 +141,17 @@ const modifyCard = async(req, res) => {
     const deckId = req.params.deckId; // Needs to match req.body.deckId
     const cardId = req.params.cardId;
     // Validate deck and card ids
-    if (!ObjectId.isValid(deckId) || !ObjectId.isValid(cardId)) {
+    if (!isValidId(deckId) || !isValidId(cardId)) {
         res.status(400).json('Deck or Card ID is invalid.');
         // Ideally this should be split into a response for each request
     }
     // Confirm deck and card exist
-    // Deck Check
-    const deckCount = mongodb
-        .getDatabase()
-        .db(dbName)
-        .collection(deckCollectionName)
-        .find({"_id": new ObjectId(deckId)})
-        .count();
-    if (deckCount == 0) {
-        // No decks found
+    // If deck doesn't exist, throw error
+    if (!deckExists(deckId)) {
         res.status(404).json('No decks found with id: ' + deckId);
     }
     // Card Check
-    const cardCount = mongodb
+    const cardCount = mongodb // TODO update
         .getDatabase()
         .db(dbName)
         .collection(cardCollectionName)
@@ -185,7 +194,7 @@ const removeCard = async(req, res) => {
     const deckId = req.params.deckId; // Needs to match req.body.deckId
     const cardId = req.params.cardId;
     // Validate deck and card ids
-    if (!ObjectId.isValid(deckId) || !ObjectId.isValid(cardId)) {
+    if (!isValidId(deckId) || !isValidId(cardId)) {
         res.status(400).json('Deck or Card ID is invalid.');
         // Ideally this should be split into a response for each request
     }
@@ -225,10 +234,11 @@ const removeCard = async(req, res) => {
 };
 
 module.exports = {
-    getAll,
+    getUserDecks,
     getDecklist,
-    addCard,
-    addDeck,
-    modifyCard,
-    removeCard
+    newDeck,
+    //addCard,
+    //modifyCardCount,
+    //removeCard,
+    //deleteDeck
 };
