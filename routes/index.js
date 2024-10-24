@@ -22,8 +22,6 @@ router.get('/github/callback', passport.authenticate('github', {
 }
 );
 
-router.use('/deck', require('./deck.js'));
-
 // GitHub Login + Logout Routes
 router.get('/login', passport.authenticate('github'), (req, res) => {});
 router.get('/logout', (req, res, next) => {
@@ -35,5 +33,11 @@ router.get('/logout', (req, res, next) => {
     });
     res.redirect('/');
 });
+
+// Other Routes
+router.use('/users', require('./users.js'));
+router.use('/decks', require('./decks.js'));
+router.use('/cards', require('./cards.js'));
+router.use('/actions', require('./actions.js'));
 
 module.exports = router;
