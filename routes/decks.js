@@ -11,11 +11,11 @@ const { isAuthenticated } = require('../middleware/authenticate.js');
  * PUT      /:deckId/:cardId  User            Modify the number of a specific card in a deck. (Example: 4 copies of strike => 1 copy of strike)
  * DELETE   /:deckId/:cardId  User            Remove card from deck.
  */
-/*
+
 router.get('/', decksController.getDecks);
 router.get('/:deckId', decksController.getDeck);
 router.post('/', decksController.createDeck);
 router.put('/:deckId', decksController.modifyDeck);
-router.delete('/:deckId', decksController.deleteDeck);
-*/
+router.delete('/:deckId', decksController.removeDeck);
+
 module.exports = router;

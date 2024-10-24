@@ -1,7 +1,6 @@
 const mongodb = require('../data/database');
 const ObjectId = require('mongodb').ObjectId;
 const dbName = process.env.DB_NAME;
-const actionCollection = process.env.COLLECTION_NAME_ACTIONS;
 const cardCollection = process.env.COLLECTION_NAME_CARDS;
 
 // Imported functions
@@ -41,28 +40,27 @@ function validateCard(card) {
     }
 
     // Action Validation
-    if (card.actions.length > 20) {
+    if (card.actions.length > 500) {
         return false;
     }
 
-    var eval_result = true;
-    card.actions.forEach((action) => {                // THIS SHOULD BE ACTION DON'T CHANGE IT
-        if (!isValidId(action.actionId)) {                     // THIS SHOULD BE ACTION DON'T CHANGE IT
-            eval_result = false;
+    var validationResult = true;
+    card.actions.forEach((action) => { 
+        if (!isValidId(action.actionId)) { 
+            validationResult = false;
         }
 
-        console.log(action);
         if (!Number.isInteger(action.quantity)) {
-            eval_result = false;
+            validationResult = false;
         }
         else {
             // No zero or negative quantities
             if (action.quantity <= 0) {
-                eval_result = false;
+                validationResult = false;
             }
         }
     });
-    if (!eval_result) {
+    if (!validationResult) {
         return false;
     }
     return true;

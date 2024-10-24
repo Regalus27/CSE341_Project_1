@@ -2,10 +2,10 @@
 GET http://localhost:5959/decks
 
 ### GET Decklist (list of cards in deck with specific id)
-GET http://localhost:5959/decks/670592a8adf45cd53f814a02
+GET http://localhost:5959/decks/670436a50a8cb9ea3989b1ee
 
 ### get
-GET http://localhost:5959/cards/
+GET http://localhost:5959/cards
 
 ### modify action
 PUT http://localhost:5959/actions/671813dae0184ef41c0250f7 HTTP/1.1
@@ -73,36 +73,18 @@ DELETE http://localhost:5959/cards/67195677d7109aa7a8c0fa8c HTTP/1.1
 ### remove action
 DELETE http://localhost:5959/actions/67181a20cadd2e0110e54921 HTTP/1.1
 
-### POST Card (Add card to deck)
-POST http://localhost:5959/decks/670592a8adf45cd53f814a02 HTTP/1.1
-Content-Type: application/json
-
-{
-  "actions": [
-    {
-      "type": "Buff",
-      "value": 5
-    },
-    {
-      "type": "Block",
-      "value": 5
-    }
-  ],
-  "valueShop": 70,
-  "quantity": 2,
-  "cardType": "Attack",
-  "cost": 0,
-  "border": "green",
-  "deckId": "670592a8adf45cd53f814a02"
-}
-
 ### POST add deck
 POST http://localhost:5959/decks HTTP/1.1
 Content-Type: application/json
 
 {
-    "name": "Updated Deck 01",
-    "userId": 
+  "name": "New Deck 01",
+  "cards": [
+    {
+      "cardId": "671967e154bf4d6a02be6644",
+      "quantity": 1
+    }
+  ]
 }
 
 ### PUT Modify Card
@@ -128,8 +110,26 @@ Content-Type: application/json
     "deckId": "670592a8adf45cd53f814a02"
 }
 
+### modify deck
+PUT http://localhost:5959/decks/670436a50a8cb9ea3989b1ee HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "New Deck",
+  "cards": [
+    {
+      "cardId": "671967e154bf4d6a02be6644",
+      "quantity": 4
+    },
+    {
+      "cardId": "67195ad1e03a776db96acfe1",
+      "quantity": 2
+    }
+  ]
+}
+
 ### DELETE card from deck
-DELETE http://localhost:5959/deck/670436a50a8cb9ea3989b1ee/670435790a8cb9ea3989b1e0 HTTP/1.1
+DELETE http://localhost:5959/decks/67198f88385d4a78cd638825 HTTP/1.1
 
 # Production
 # Production
