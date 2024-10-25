@@ -13,8 +13,8 @@ const { isAuthenticated } = require('../middleware/authenticate.js');
 
 router.get('/', cardsController.getCards);
 router.get('/:cardId', cardsController.getCard);
-router.post('/', cardsController.createCard);
-router.put('/:cardId', cardsController.modifyCard);
-router.delete('/:cardId', cardsController.removeCard);
+router.post('/', isAuthenticated, cardsController.createCard);
+router.put('/:cardId', isAuthenticated, cardsController.modifyCard);
+router.delete('/:cardId', isAuthenticated, cardsController.removeCard);
 
 module.exports = router;

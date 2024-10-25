@@ -13,8 +13,8 @@ const { isAuthenticated } = require('../middleware/authenticate.js');
 
 router.get('/', actionsController.getActions);
 router.get('/:actionId', actionsController.getAction);
-router.post('/', actionsController.createAction);
-router.put('/:actionId', actionsController.modifyAction);
-router.delete('/:actionId', actionsController.removeAction);
+router.post('/', isAuthenticated, actionsController.createAction);
+router.put('/:actionId', isAuthenticated, actionsController.modifyAction);
+router.delete('/:actionId', isAuthenticated, actionsController.removeAction);
 
 module.exports = router;
