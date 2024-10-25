@@ -22,9 +22,9 @@ POST http://localhost:5959/actions HTTP/1.1
 Content-Type: application/json
 
 {
-  "displayText": "Show this example text to your opponent.",
-  "actionType": "Display",
-  "actionValue": 1
+  "displayText": "Deal damage",
+  "actionType": "Damage",
+  "actionValue": 6
 }
 
 ### post card

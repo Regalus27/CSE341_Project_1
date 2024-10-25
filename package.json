@@ -4,7 +4,7 @@
   "description": "\"# CSE341 Project 1\"",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node server.js",
     "swagger": "node ./swagger.js"
   },
@@ -31,5 +31,8 @@
     "swagger-autogen": "^2.23.7",
     "swagger-ui-express": "^5.0.1",
     "validatorjs": "^3.22.1"
+  },
+  "devDependencies": {
+    "@shelf/jest-mongodb": "^4.3.2"
   }
 }
