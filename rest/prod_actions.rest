@@ -1,0 +1,2 @@
+### get
+GET https://cse341-project-1-p1v7.onrender.com/actions

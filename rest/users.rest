@@ -1,5 +1,5 @@
 ### get all
-GET http://localhost:5959/users
+GET http://localhost:5959/actions
 
 ### get one
 GET http://localhost:5959/users/671a838d7b5f63886c8b489f

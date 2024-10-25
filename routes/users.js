@@ -4,8 +4,8 @@ const { isAuthenticated } = require('../middleware/authenticate.js');
 
 router.get('/', usersController.getUsers);
 router.get('/:userId', usersController.getUser);
-router.post('/', usersController.createUser);
-router.put('/:userId', usersController.modifyUser);
-router.delete('/:userId', usersController.removeUser);
+router.post('/', isAuthenticated, usersController.createUser);
+router.put('/:userId', isAuthenticated, usersController.modifyUser);
+router.delete('/:userId', isAuthenticated, usersController.removeUser);
 
 module.exports = router;
